@@ -129,7 +129,6 @@
     <ClInclude Include="..\..\..\include\tc\ArgumentOutOfRangeException.h" />
     <ClInclude Include="..\..\..\include\tc\ArithmeticException.h" />
     <ClInclude Include="..\..\..\include\tc\ByteData.h" />
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptedStream.h" />
     <ClInclude Include="..\..\..\include\tc\Exception.h" />
     <ClInclude Include="..\..\..\include\tc\InvalidOperationException.h" />
     <ClInclude Include="..\..\..\include\tc\NotImplementedException.h" />
@@ -140,8 +139,7 @@
     <ClInclude Include="..\..\..\include\tc\OverflowException.h" />
     <ClInclude Include="..\..\..\include\tc\PlatformErrorHandlingUtil.h" />
     <ClInclude Include="..\..\..\include\tc\ResourceStatus.h" />
-    <ClInclude Include="..\..\..\include\tc\string\detail\utf16.h" />
-    <ClInclude Include="..\..\..\include\tc\string\detail\utf8.h" />
+    <ClInclude Include="..\..\..\include\tc\SecurityException.h" />
     <ClInclude Include="..\..\..\include\tc\UnauthorisedAccessException.h" />
     <ClInclude Include="..\..\..\include\tc\bn\binary_utils.h" />
     <ClInclude Include="..\..\..\include\tc\bn\bitarray.h" />
@@ -152,6 +150,7 @@
     <ClInclude Include="..\..\..\include\tc\cli\FormatUtil.h" />
     <ClInclude Include="..\..\..\include\tc\cli\OptionParser.h" />
     <ClInclude Include="..\..\..\include\tc\cli.h" />
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptedStream.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\Aes128CcmEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\Aes128CtrEncryptedStream.h" />
@@ -166,12 +165,12 @@
     <ClInclude Include="..\..\..\include\tc\crypto\Aes256EcbEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\Aes256XtsEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\AesEncryptor.h" />
-    <ClInclude Include="..\..\..\include\tc\crypto\Des56CbcEncryptor.h" />
-    <ClInclude Include="..\..\..\include\tc\crypto\Des56EcbEncryptor.h" />
-    <ClInclude Include="..\..\..\include\tc\crypto\DesEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\CbcEncryptor.h" />
+    <ClInclude Include="..\..\..\include\tc\crypto\CcmEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\CryptoException.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\CtrEncryptor.h" />
+    <ClInclude Include="..\..\..\include\tc\crypto\Des56CbcEncryptor.h" />
+    <ClInclude Include="..\..\..\include\tc\crypto\Des56EcbEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\DesEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\EcbEncryptor.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\HmacGenerator.h" />
@@ -213,6 +212,7 @@
     <ClInclude Include="..\..\..\include\tc\crypto\detail\AesImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\detail\BlockUtilImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\detail\CbcModeImpl.h" />
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\CcmModeImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\detail\CtrModeImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\detail\DesImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\detail\EcbModeImpl.h" />
@@ -236,11 +236,17 @@
     <ClInclude Include="..\..\..\include\tc\io\EmptyStream.h" />
     <ClInclude Include="..\..\..\include\tc\io\DirectoryNotEmptyException.h" />
     <ClInclude Include="..\..\..\include\tc\io\DirectoryNotFoundException.h" />
+    <ClInclude Include="..\..\..\include\tc\io\BasicPathResolver.h" />
+    <ClInclude Include="..\..\..\include\tc\io\ConcatenatedStream.h" />
+    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotEmptyException.h" />
+    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotFoundException.h" />
+    <ClInclude Include="..\..\..\include\tc\io\EmptyStream.h" />
     <ClInclude Include="..\..\..\include\tc\io\FileAccess.h" />
     <ClInclude Include="..\..\..\include\tc\io\FileExistsException.h" />
     <ClInclude Include="..\..\..\include\tc\io\FileMode.h" />
     <ClInclude Include="..\..\..\include\tc\io\FileNotFoundException.h" />
     <ClInclude Include="..\..\..\include\tc\io\FileStream.h" />
+    <ClInclude Include="..\..\..\include\tc\io\IFileSystem.h" />
     <ClInclude Include="..\..\..\include\tc\io\IOException.h" />
     <ClInclude Include="..\..\..\include\tc\io\IOUtil.h" />
     <ClInclude Include="..\..\..\include\tc\io\IPathResolver.h" />
@@ -248,7 +254,6 @@
     <ClInclude Include="..\..\..\include\tc\io\IReadableSink.h" />
     <ClInclude Include="..\..\..\include\tc\io\ISink.h" />
     <ClInclude Include="..\..\..\include\tc\io\ISource.h" />
-    <ClInclude Include="..\..\..\include\tc\io\IFileSystem.h" />
     <ClInclude Include="..\..\..\include\tc\io\IStream.h" />
     <ClInclude Include="..\..\..\include\tc\io\LocalFileSystem.h" />
     <ClInclude Include="..\..\..\include\tc\io\MemorySource.h" />
@@ -262,9 +267,9 @@
     <ClInclude Include="..\..\..\include\tc\io\StreamSink.h" />
     <ClInclude Include="..\..\..\include\tc\io\StreamSource.h" />
     <ClInclude Include="..\..\..\include\tc\io\StreamUtil.h" />
+    <ClInclude Include="..\..\..\include\tc\io\SubFileSystem.h" />
     <ClInclude Include="..\..\..\include\tc\io\SubSink.h" />
     <ClInclude Include="..\..\..\include\tc\io\SubSource.h" />
-    <ClInclude Include="..\..\..\include\tc\io\SubFileSystem.h" />
     <ClInclude Include="..\..\..\include\tc\io\SubStream.h" />
     <ClInclude Include="..\..\..\include\tc\io\VirtualFileSystem.h" />
     <ClInclude Include="..\..\..\include\tc\io.h" />
@@ -272,17 +277,20 @@
     <ClInclude Include="..\..\..\include\tc\os\UnicodeMain.h" />
     <ClInclude Include="..\..\..\include\tc\os.h" />
     <ClInclude Include="..\..\..\include\tc\string\TranscodeUtil.h" />
+    <ClInclude Include="..\..\..\include\tc\string\detail\utf16.h" />
+    <ClInclude Include="..\..\..\include\tc\string\detail\utf8.h" />
     <ClInclude Include="..\..\..\include\tc\string.h" />
     <ClInclude Include="..\..\..\include\tc\types.h" />
     <ClInclude Include="..\..\..\include\tc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ByteData.cpp" />
-    <ClCompile Include="..\..\..\src\crypto\Aes128CbcEncryptedStream.cpp" />
     <ClCompile Include="..\..\..\src\Exception.cpp" />
     <ClCompile Include="..\..\..\src\PlatformErrorHandlingUtil.cpp" />
+    <ClCompile Include="..\..\..\src\types.cpp" />
     <ClCompile Include="..\..\..\src\cli\FormatUtil.cpp" />
     <ClCompile Include="..\..\..\src\cli\OptionParser.cpp" />
+    <ClCompile Include="..\..\..\src\crypto\Aes128CbcEncryptedStream.cpp" />
     <ClCompile Include="..\..\..\src\crypto\Aes128CbcEncryptor.cpp" />
     <ClCompile Include="..\..\..\src\crypto\Aes128CcmEncryptor.cpp" />
     <ClCompile Include="..\..\..\src\crypto\Aes128CtrEncryptedStream.cpp" />
@@ -350,14 +358,13 @@
     <ClCompile Include="..\..\..\src\io\StreamSink.cpp" />
     <ClCompile Include="..\..\..\src\io\StreamSource.cpp" />
     <ClCompile Include="..\..\..\src\io\StreamUtil.cpp" />
+    <ClCompile Include="..\..\..\src\io\SubFileSystem.cpp" />
     <ClCompile Include="..\..\..\src\io\SubSink.cpp" />
     <ClCompile Include="..\..\..\src\io\SubSource.cpp" />
-    <ClCompile Include="..\..\..\src\io\SubFileSystem.cpp" />
     <ClCompile Include="..\..\..\src\io\SubStream.cpp" />
     <ClCompile Include="..\..\..\src\io\VirtualFileSystem.cpp" />
     <ClCompile Include="..\..\..\src\os\Environment.cpp" />
     <ClCompile Include="..\..\..\src\string\TranscodeUtil.cpp" />
-    <ClCompile Include="..\..\..\src\types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)..\..\deps\libmbedtls\build\visualstudio\libmbedtls\libmbedtls.vcxproj">

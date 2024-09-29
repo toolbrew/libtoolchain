@@ -3,6 +3,7 @@
 #include "string_TranscodeUtil_TestClass.h"
 #include "cli_FormatUtil_TestClass.h"
 #include "cli_OptionParser_TestClass.h"
+#include "encode_Base64Util_TestClass.h"
 #include "bn_binaryutils_TestClass.h"
 #include "bn_pad_TestClass.h"
 #include "bn_string_TestClass.h"
@@ -234,6 +235,9 @@ int main(int argc, char** argv)
 	// namespace tc::cli
 	runTest<cli_FormatUtil_TestClass>(global_test_results, include_test_regex, exclude_test_regex, include_slow_tests);
 	runTest<cli_OptionParser_TestClass>(global_test_results, include_test_regex, exclude_test_regex, include_slow_tests);
+
+	// namespace tc::encode
+	runTest<encode_Base64Util_TestClass>(global_test_results, include_test_regex, exclude_test_regex, include_slow_tests);
 
 	// namespace tc::bn
 	runTest<bn_binaryutils_TestClass>(global_test_results, include_test_regex, exclude_test_regex, include_slow_tests);

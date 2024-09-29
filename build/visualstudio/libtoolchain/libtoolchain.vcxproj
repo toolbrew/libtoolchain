@@ -231,6 +231,8 @@
     <ClInclude Include="..\..\..\include\tc\crypto\detail\TdesImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto\detail\XtsModeImpl.h" />
     <ClInclude Include="..\..\..\include\tc\crypto.h" />
+    <ClInclude Include="..\..\..\include\tc\encode\Base64Util.h" />
+    <ClInclude Include="..\..\..\include\tc\encode.h" />
     <ClInclude Include="..\..\..\include\tc\io\BasicPathResolver.h" />
     <ClInclude Include="..\..\..\include\tc\io\ConcatenatedStream.h" />
     <ClInclude Include="..\..\..\include\tc\io\EmptyStream.h" />
@@ -343,6 +345,7 @@
     <ClCompile Include="..\..\..\src\crypto\detail\Sha1Impl.cpp" />
     <ClCompile Include="..\..\..\src\crypto\detail\Sha2Impl.cpp" />
     <ClCompile Include="..\..\..\src\crypto\detail\TdesImpl.cpp" />
+    <ClCompile Include="..\..\..\src\encode\Base64Util.cpp" />
     <ClCompile Include="..\..\..\src\io\BasicPathResolver.cpp" />
     <ClCompile Include="..\..\..\src\io\ConcatenatedStream.cpp" />
     <ClCompile Include="..\..\..\src\io\EmptyStream.cpp" />

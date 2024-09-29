@@ -12,11 +12,10 @@ encode_Base64Util_TestClass::encode_Base64Util_TestClass() :
 
 void encode_Base64Util_TestClass::runAllTests(void)
 {
-	testHexStringToBytes();
-	testFormatBytesAsString();
-	testFormatBytesAsStringWithLineLimit();
-	testFormatListWithLineLimit();
-	testFormatBytesAsHxdHexString();
+	testEncodeDataAsBase64();
+	testEncodeStringAsBase64();
+	testDecodeBase64AsData();
+	testDecodeBase64AsString();
 }
 
 const std::string& encode_Base64Util_TestClass::getTestTag() const
@@ -31,152 +30,56 @@ const std::vector<ITestClass::TestResult>& encode_Base64Util_TestClass::getTestR
 
 //---------------------------------------------------------
 
-void encode_Base64Util_TestClass::testHexStringToBytes()
+void encode_Base64Util_TestClass::testEncodeDataAsBase64()
 {
 	TestResult test;
-	test.test_name = "testHexStringToBytes";
+	test.test_name = "testEncodeDataAsBase64";
 	test.result = "NOT RUN";
 	test.comments = "";
 
-	try 
+	try
 	{
 		struct TestCase
 		{
 			std::string test_name;
 			std::string in_string;
-			tc::ByteData out_data;
-		};
-
-		// create manual tests
-		std::vector<TestCase> tests = 
-		{
-			{ "empty string", "", tc::ByteData()},
-			{ "unaligned string" ,"1", tc::ByteData()},
-			{ "unaligned larger string" ,"123456789", tc::ByteData()},
-			{ "multi-byte" ,"00112233445566778899aabbccddeeff010203", tc::ByteData({0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff, 0x01, 0x02, 0x03})},
-		};
-
-		// add programatically determined tests
-		for (size_t i = 0; i < 0xff; i++)
-		{
-			std::string all_lower, all_upper, upper_lower, lower_upper;
-
-			size_t upper_num = (i >> 4) & 0xf;
-			size_t lower_num = (i) & 0xf;
-
-			if (upper_num <= 9)
-			{
-				all_lower += char('0' + upper_num);
-				all_upper += char('0' + upper_num);
-				upper_lower += char('0' + upper_num);
-				lower_upper += char('0' + upper_num);
-			}
-			else
-			{
-				all_lower += char('a' + upper_num - 10);
-				all_upper += char('A' + upper_num - 10);
-				upper_lower += char('A' + upper_num - 10);
-				lower_upper += char('a' + upper_num - 10);
-			}
-
-			if (lower_num <= 9)
-			{
-				all_lower += char('0' + lower_num);
-				all_upper += char('0' + lower_num);
-				upper_lower += char('0' + lower_num);
-				lower_upper += char('0' + lower_num);
-			}
-			else
-			{
-				all_lower += char('a' + lower_num - 10);
-				all_upper += char('A' + lower_num - 10);
-				upper_lower += char('a' + lower_num - 10);
-				lower_upper += char('A' + lower_num - 10);
-			}
-
-			tests.push_back({"all_lower_" + all_lower, all_lower, tc::ByteData({(byte_t)i})});
-			tests.push_back({"all_upper_" + all_lower, all_upper, tc::ByteData({(byte_t)i})});
-			tests.push_back({"upper_lower_" + all_lower, upper_lower, tc::ByteData({(byte_t)i})});
-			tests.push_back({"lower_upper_" + all_lower, lower_upper, tc::ByteData({(byte_t)i})});
-		}
-
-		// run tests
-		for (auto test = tests.begin(); test != tests.end(); test++)
-		{
-			tc::ByteData out = tc::encode::Base64Util::hexStringToBytes(test->in_string);
-
-			if (out.size() != test->out_data.size())
-			{
-				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) returned ByteData with wrong size: {:d} (should be: {:d})", test->test_name, test->in_string, out.size(), test->out_data.size()));
-			}
-
-			if (out.size() != 0 && memcmp(out.data(), test->out_data.data(), out.size()) != 0)
-			{
-				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) returned ByteData with wrong data", test->test_name, test->in_string));
-			}
-		}
-
-		// record result
-		test.result = "PASS";
-		test.comments = "";
-	}
-	catch (const tc::TestException& e)
-	{
-		// record result
-		test.result = "FAIL";
-		test.comments = e.what();
-	}
-	catch (const std::exception& e)
-	{
-		// record result
-		test.result = "UNHANDLED EXCEPTION";
-		test.comments = e.what();
-	}
-
-	// add result to list
-	mTestResults.push_back(std::move(test));
-}
-
-void encode_Base64Util_TestClass::testFormatBytesAsString()
-{
-	TestResult test;
-	test.test_name = "testFormatBytesAsString";
-	test.result = "NOT RUN";
-	test.comments = "";
-
-	try 
-	{
-		// test recipe
-		struct TestCase
-		{
-			std::string test_name;
 			tc::ByteData in_data;
-			bool in_is_uppercase;
-			std::string in_delimiter;
-			std::string out_string;
+			std::string out_base64;
 		};
 
-		// create tests
+		// create happy path tests
 		std::vector<TestCase> tests = 
 		{
-			{"empty data", tc::ByteData(), false, "", ""},
-			{"8byte lowercase no delim", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), false, "", "00aa11bb22cc33dd"},
-			{"8byte lowercase ' ' delim", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), false, " ", "00 aa 11 bb 22 cc 33 dd"},
-			{"8byte lowercase ':' delim", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), false, ":", "00:aa:11:bb:22:cc:33:dd"},
-			{"8byte uppercase no delim", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), true, "", "00AA11BB22CC33DD"},
-			{"8byte uppercase ' ' delim", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), true, " ", "00 AA 11 BB 22 CC 33 DD"},
-			{"8byte uppercase ':' delim", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), true, ":", "00:AA:11:BB:22:CC:33:DD"},
+			{ "empty data", std::string(), tc::ByteData(), std::string()},
+			{ "single space", " ", tc::cli::FormatUtil::hexStringToBytes("20"), "IA=="},
+			{ "ascii string", "The quick brown fox jumps over the lazy dog.", tc::cli::FormatUtil::hexStringToBytes("54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e"), "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4="},
+			{ "512 bytes binary data", std::string(), tc::cli::FormatUtil::hexStringToBytes("85d278fb18be42a62a56b495d4ab56a803fad5a1c66153b0c8a8628c3222fe55c500fa9721d5bfebff31ec59dcf810ac4bd0d2939ae045e7fcc34a432b45aca93e2a7a35b8208e75e1477d02bfd2175ae4a2d68dbf1a882249ca3f2b36586db700fb47e954f9233c9a2227e850957bbb1f3da6e9b4693d38e09434a691451b897c8b1fbbd5de4921e1f84fc136dd1b9297ad5e065556cd2ce52ec6eed8133d83bfc4e54c7d715de5e2b7eed9898b9b5eebbd5d07ae22f83d87218f7fe7355b5b6379e4a3eb27d48a9e042aa637063aac9a0b7bc104758bee61321183c0bb1ffb8ceb8c3d0cbbd5a55fe7809df89bf0883d8d7c762673fbfc5fceb6b14b4b1a828da5059cb090a2286ae7efc64b09e033d70cb6a528c54cea3d90f35b8fdfd73a1e85604c827cf5719b488e37b8cda2e2baba5cec43b1d031e7e4a47f3baedb00c037779a6f0e9fab5c9c3c84236458378847acd174083570c628074417ebba551853299eea400dfa95a8aff5f1fd9c314225365023ee31a03930c0029d57feb81417d57f9f45f225faa3790c0b239891c82151a7449507cab70376975ba9f2e68f5e37544f848faf875b9e24dccb9c556aae2a57a7f369581d50dfdf06fdff27fd2107db080c4d9e1c100427a1493ddb5e80e43f943bbbad9113448b658a5a5cdefd70e57d0b28e2bd942a978179eb88d6661b30f2b5b346fff1d0a5c9b93d2d"), "hdJ4+xi+QqYqVrSV1KtWqAP61aHGYVOwyKhijDIi/lXFAPqXIdW/6/8x7Fnc+BCsS9DSk5rgRef8w0pDK0WsqT4qejW4II514Ud9Ar/SF1rkotaNvxqIIknKPys2WG23APtH6VT5IzyaIifoUJV7ux89pum0aT044JQ0ppFFG4l8ix+71d5JIeH4T8E23RuSl61eBlVWzSzlLsbu2BM9g7/E5Ux9cV3l4rfu2YmLm17rvV0HriL4PYchj3/nNVtbY3nko+sn1IqeBCqmNwY6rJoLe8EEdYvuYTIRg8C7H/uM64w9DLvVpV/ngJ34m/CIPY18diZz+/xfzraxS0sago2lBZywkKIoaufvxksJ4DPXDLalKMVM6j2Q81uP39c6HoVgTIJ89XGbSI43uM2i4rq6XOxDsdAx5+Skfzuu2wDAN3eabw6fq1ycPIQjZFg3iEes0XQINXDGKAdEF+u6VRhTKZ7qQA36laiv9fH9nDFCJTZQI+4xoDkwwAKdV/64FBfVf59F8iX6o3kMCyOYkcghUadElQfKtwN2l1up8uaPXjdUT4SPr4dbniTcy5xVaq4qV6fzaVgdUN/fBv3/J/0hB9sIDE2eHBAEJ6FJPdtegOQ/lDu7rZETRItlilpc3v1w5X0LKOK9lCqXgXnriNZmGzDytbNG//HQpcm5PS0="},
 		};
 
+		// run error path tests
+		{
+			std::string out = tc::encode::Base64Util::encodeDataAsBase64(nullptr, 0xdeadbeef);
 
-		// run tests
+			if (out != "")
+			{
+				throw tc::TestException(fmt::format("encodeDataAsBase64() did not return an empty string for invalid input: data=nullptr, size=0xdeadbeef"));
+			}
+		}
+
+		// run happy path tests
 		for (auto test = tests.begin(); test != tests.end(); test++)
 		{
-			std::string res = tc::encode::Base64Util::formatBytesAsString(test->in_data.data(), test->in_data.size(), test->in_is_uppercase, test->in_delimiter);
+			std::string out_1 = tc::encode::Base64Util::encodeDataAsBase64(test->in_data);
+			std::string out_2 = tc::encode::Base64Util::encodeDataAsBase64(test->in_data.data(), test->in_data.size());
 
-			if (res != test->out_string)
+			if (out_1 != test->out_base64)
 			{
-				throw tc::TestException(fmt::format("Test({:s}) Failed to format data correctly. Output: \"{:s}\", Expected: \"{:s}\"", test->test_name, res, test->out_string));
+				throw tc::TestException(fmt::format("Test({:s}) to convert data({:s}) to base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, tc::cli::FormatUtil::formatBytesAsString(test->in_data, false, ""), out_1, test->out_base64));
+			}
+
+			if (out_2 != test->out_base64)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert data({:s}), size({:d}) to base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, tc::cli::FormatUtil::formatBytesAsString(test->in_data.data(), test->in_data.size(), false, ""), test->in_data.size(), out_2, test->out_base64));
 			}
 		}
 
@@ -201,59 +104,57 @@ void encode_Base64Util_TestClass::testFormatBytesAsString()
 	mTestResults.push_back(std::move(test));
 }
 
-void encode_Base64Util_TestClass::testFormatBytesAsStringWithLineLimit()
+void encode_Base64Util_TestClass::testEncodeStringAsBase64()
 {
 	TestResult test;
-	test.test_name = "testFormatBytesAsStringWithLineLimit";
+	test.test_name = "testEncodeStringAsBase64";
 	test.result = "NOT RUN";
 	test.comments = "";
 
-	try 
+	try
 	{
-		// test recipe
 		struct TestCase
 		{
 			std::string test_name;
+			std::string in_string;
 			tc::ByteData in_data;
-			size_t in_row_len;
-			size_t in_indent_len;
-			std::string out_string;
+			std::string out_base64;
 		};
 
-		// create tests
+		// create happy path tests
 		std::vector<TestCase> tests = 
 		{
-			{"empty data", tc::ByteData(), 0, 0, ""},
-			{"size:8 row:8 indent:0", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), 8, 0, "00aa11bb22cc33dd\n"},
-			{"size:8 row:4 indent:0", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), 4, 0, "00aa11bb\n22cc33dd\n"},
-			{"size:8 row:3 indent:0", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), 3, 0, "00aa11\nbb22cc\n33dd\n"},
-			{"size:8 row:3 indent:2", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), 3, 2, "  00aa11\n  bb22cc\n  33dd\n"},
-			{"size:8 row:1 indent:3", tc::ByteData({0x00, 0xaa, 0x11, 0xbb, 0x22, 0xcc, 0x33, 0xdd}), 1, 3, "   00\n   aa\n   11\n   bb\n   22\n   cc\n   33\n   dd\n"},
+			{ "empty data", std::string(), tc::ByteData(), std::string()},
+			{ "single space", " ", tc::cli::FormatUtil::hexStringToBytes("20"), "IA=="},
+			{ "ascii string", "The quick brown fox jumps over the lazy dog.", tc::cli::FormatUtil::hexStringToBytes("54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e"), "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4="},
+			// skip binary test as not a string
+			//{ "512 bytes binary data", std::string(), tc::cli::FormatUtil::hexStringToBytes("85d278fb18be42a62a56b495d4ab56a803fad5a1c66153b0c8a8628c3222fe55c500fa9721d5bfebff31ec59dcf810ac4bd0d2939ae045e7fcc34a432b45aca93e2a7a35b8208e75e1477d02bfd2175ae4a2d68dbf1a882249ca3f2b36586db700fb47e954f9233c9a2227e850957bbb1f3da6e9b4693d38e09434a691451b897c8b1fbbd5de4921e1f84fc136dd1b9297ad5e065556cd2ce52ec6eed8133d83bfc4e54c7d715de5e2b7eed9898b9b5eebbd5d07ae22f83d87218f7fe7355b5b6379e4a3eb27d48a9e042aa637063aac9a0b7bc104758bee61321183c0bb1ffb8ceb8c3d0cbbd5a55fe7809df89bf0883d8d7c762673fbfc5fceb6b14b4b1a828da5059cb090a2286ae7efc64b09e033d70cb6a528c54cea3d90f35b8fdfd73a1e85604c827cf5719b488e37b8cda2e2baba5cec43b1d031e7e4a47f3baedb00c037779a6f0e9fab5c9c3c84236458378847acd174083570c628074417ebba551853299eea400dfa95a8aff5f1fd9c314225365023ee31a03930c0029d57feb81417d57f9f45f225faa3790c0b239891c82151a7449507cab70376975ba9f2e68f5e37544f848faf875b9e24dccb9c556aae2a57a7f369581d50dfdf06fdff27fd2107db080c4d9e1c100427a1493ddb5e80e43f943bbbad9113448b658a5a5cdefd70e57d0b28e2bd942a978179eb88d6661b30f2b5b346fff1d0a5c9b93d2d"), "hdJ4+xi+QqYqVrSV1KtWqAP61aHGYVOwyKhijDIi/lXFAPqXIdW/6/8x7Fnc+BCsS9DSk5rgRef8w0pDK0WsqT4qejW4II514Ud9Ar/SF1rkotaNvxqIIknKPys2WG23APtH6VT5IzyaIifoUJV7ux89pum0aT044JQ0ppFFG4l8ix+71d5JIeH4T8E23RuSl61eBlVWzSzlLsbu2BM9g7/E5Ux9cV3l4rfu2YmLm17rvV0HriL4PYchj3/nNVtbY3nko+sn1IqeBCqmNwY6rJoLe8EEdYvuYTIRg8C7H/uM64w9DLvVpV/ngJ34m/CIPY18diZz+/xfzraxS0sago2lBZywkKIoaufvxksJ4DPXDLalKMVM6j2Q81uP39c6HoVgTIJ89XGbSI43uM2i4rq6XOxDsdAx5+Skfzuu2wDAN3eabw6fq1ycPIQjZFg3iEes0XQINXDGKAdEF+u6VRhTKZ7qQA36laiv9fH9nDFCJTZQI+4xoDkwwAKdV/64FBfVf59F8iX6o3kMCyOYkcghUadElQfKtwN2l1up8uaPXjdUT4SPr4dbniTcy5xVaq4qV6fzaVgdUN/fBv3/J/0hB9sIDE2eHBAEJ6FJPdtegOQ/lDu7rZETRItlilpc3v1w5X0LKOK9lCqXgXnriNZmGzDytbNG//HQpcm5PS0="},
 		};
 
+		// run error path tests
+		{
+			std::string out = tc::encode::Base64Util::encodeStringAsBase64(nullptr, 0xdeadbeef);
 
-		// run tests
+			if (out != "")
+			{
+				throw tc::TestException(fmt::format("encodeStringAsBase64() did not return an empty string for invalid input: str=nullptr, size=0xdeadbeef"));
+			}
+		}
+
+		// run happy path tests
 		for (auto test = tests.begin(); test != tests.end(); test++)
 		{
-			std::string res = tc::encode::Base64Util::formatBytesAsStringWithLineLimit(test->in_data.data(), test->in_data.size(), false, "", test->in_row_len, test->in_indent_len);
+			std::string out_1 = tc::encode::Base64Util::encodeStringAsBase64(test->in_string);
+			std::string out_2 = tc::encode::Base64Util::encodeStringAsBase64(test->in_string.c_str(), test->in_string.size());
 
-			if (res != test->out_string)
+			if (out_1 != test->out_base64)
 			{
-				std::string& expected = test->out_string;
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) to base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, test->in_string, out_1, test->out_base64));
+			}
 
-				// replace literal new lines so they can be printed on one line for debugging
-				for (size_t pos = res.find('\n', 0); pos != std::string::npos; pos = res.find('\n', pos+1))
-				{
-					res.replace(pos, 1, "\\n");
-				}
-
-				// replace literal new lines so they can be printed on one line for debugging
-				for (size_t pos = expected.find('\n', 0); pos != std::string::npos; pos = expected.find('\n', pos+1))
-				{
-					expected.replace(pos, 1, "\\n");
-				}
-				
-				throw tc::TestException(fmt::format("Test({:s}) Failed to format data correctly. Output: \"{:s}\", Expected: \"{:s}\"", test->test_name, res, expected));
+			if (out_2 != test->out_base64)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}), size({:d}) to base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, test->in_string.c_str(), test->in_string.size(), test->in_data.size(), out_2, test->out_base64));
 			}
 		}
 
@@ -278,155 +179,173 @@ void encode_Base64Util_TestClass::testFormatBytesAsStringWithLineLimit()
 	mTestResults.push_back(std::move(test));
 }
 
-void encode_Base64Util_TestClass::testFormatListWithLineLimit()
+void encode_Base64Util_TestClass::testDecodeBase64AsData()
 {
 	TestResult test;
-	test.test_name = "testFormatListWithLineLimit";
+	test.test_name = "testDecodeBase64AsData";
 	test.result = "NOT RUN";
 	test.comments = "";
 
-	try 
+	try
 	{
-		// test recipe
 		struct TestCase
 		{
 			std::string test_name;
-			std::vector<std::string> in_list;
-			size_t in_row_len;
-			size_t in_indent_len;
-			std::string out_string;
-		};
-
-		// create tests
-		std::vector<TestCase> tests = 
-		{
-			{"empty", {}, 0, 0, ""},
-			{"empty list", {}, 40, 0, ""},
-			{"list of 4, row_len 20", {"Astr", "Bstr", "Cstr", "Dstr"}, 20, 0, "Astr, Bstr, Cstr, Dstr\n"},
-			{"list of 4, row_len 8", {"Astr", "Bstr", "Cstr", "Dstr"}, 8, 0, "Astr, Bstr, \nCstr, Dstr\n"},
-			{"list of 4, row_len 8, indent=2", {"Astr", "Bstr", "Cstr", "Dstr"}, 8, 2, "  Astr, Bstr, \n  Cstr, Dstr\n"},
-			{"list of 4, row_len 4", {"Astr", "Bstr", "Cstr", "Dstr"}, 4, 0, "Astr, \nBstr, \nCstr, \nDstr\n"},
-			{"list of 4, row_len 2", {"Astr", "Bstr", "Cstr", "Dstr"}, 2, 0, "Astr, \nBstr, \nCstr, \nDstr\n"},
-			{"list of 4, row_len 1", {"Astr", "Bstr", "Cstr", "Dstr"}, 1, 0, "Astr, \nBstr, \nCstr, \nDstr\n"},
-			{"list of 4, row_len 0", {"Astr", "Bstr", "Cstr", "Dstr"}, 0, 0, "Astr, \nBstr, \nCstr, \nDstr\n"},
-		};
-
-
-		// run tests
-		for (auto test = tests.begin(); test != tests.end(); test++)
-		{
-			std::string res = tc::encode::Base64Util::formatListWithLineLimit(test->in_list, test->in_row_len, test->in_indent_len);
-
-			if (res != test->out_string)
-			{
-				std::string& expected = test->out_string;
-
-				// replace literal new lines so they can be printed on one line for debugging
-				for (size_t pos = res.find('\n', 0); pos != std::string::npos; pos = res.find('\n', pos+1))
-				{
-					res.replace(pos, 1, "\\n");
-				}
-
-				// replace literal new lines so they can be printed on one line for debugging
-				for (size_t pos = expected.find('\n', 0); pos != std::string::npos; pos = expected.find('\n', pos+1))
-				{
-					expected.replace(pos, 1, "\\n");
-				}
-				
-				throw tc::TestException(fmt::format("Test({:s}) Failed to format data correctly. Output: \"{:s}\", Expected: \"{:s}\"", test->test_name, res, expected));
-			}
-		}
-
-		// record result
-		test.result = "PASS";
-		test.comments = "";
-	}
-	catch (const tc::TestException& e)
-	{
-		// record result
-		test.result = "FAIL";
-		test.comments = e.what();
-	}
-	catch (const std::exception& e)
-	{
-		// record result
-		test.result = "UNHANDLED EXCEPTION";
-		test.comments = e.what();
-	}
-
-	// add result to list
-	mTestResults.push_back(std::move(test));
-}
-
-void encode_Base64Util_TestClass::testFormatBytesAsHxdHexString()
-{
-	TestResult test;
-	test.test_name = "testFormatBytesAsHxdHexString";
-	test.result = "NOT RUN";
-	test.comments = "";
-
-	try 
-	{
-		// test recipe
-		struct TestCase
-		{
-			std::string test_name;
+			std::string in_string;
 			tc::ByteData in_data;
-			size_t in_bytes_per_row;
-			size_t in_byte_group_size;
-			std::string out_string;
+			std::string out_base64;
 		};
 
-		// create tests
+		// create happy path tests
 		std::vector<TestCase> tests = 
 		{
-			{"empty all", {}, 0, 0, ""},
-			{"empty data", {}, 16, 1, ""},
-			{"empty bytes_per_row", {0x00, 0x01}, 0, 1, ""},
-			{"empty byte_group_size", {0x00, 0x01}, 16, 0, ""},
-			{"little data", {0x00, 0x01}, 16, 1, "00000000 | 00 01                                            ..              \n"},
-			{"full row data", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 1, "00000000 | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F  ................\n"},
-			{"2 row ascii", {0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4e, 0x4f, 0x50, 0x51, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59, 0x5a, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66}, 16, 1, "00000000 | 41 42 43 44 45 46 47 48 49 4A 4B 4C 4E 4F 50 51  ABCDEFGHIJKLNOPQ\n00000010 | 51 52 53 54 55 56 57 58 59 5A 61 62 63 64 65 66  QRSTUVWXYZabcdef\n"},
-			{"full row data, byte_group_size=2",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 2,  "00000000 | 0001 0203 0405 0607 0809 0A0B 0C0D 0E0F  ................\n"},
-			{"full row data, byte_group_size=3",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 3,  "00000000 | 000102 030405 060708 090A0B 0C0D0E 0F ................\n"},
-			{"full row data, byte_group_size=4",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 4,  "00000000 | 00010203 04050607 08090A0B 0C0D0E0F  ................\n"},
-			{"full row data, byte_group_size=5",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 5,  "00000000 | 0001020304 0506070809 0A0B0C0D0E 0F ................\n"},
-			{"full row data, byte_group_size=6",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 6,  "00000000 | 000102030405 060708090A0B 0C0D0E0F ................\n"},
-			{"full row data, byte_group_size=7",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 7,  "00000000 | 00010203040506 0708090A0B0C0D 0E0F ................\n"},
-			{"full row data, byte_group_size=8",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 8,  "00000000 | 0001020304050607 08090A0B0C0D0E0F  ................\n"},
-			{"full row data, byte_group_size=9",  {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 9,  "00000000 | 000102030405060708 090A0B0C0D0E0F ................\n"},
-			{"full row data, byte_group_size=10", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 10, "00000000 | 00010203040506070809 0A0B0C0D0E0F ................\n"},
-			{"full row data, byte_group_size=11", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 11, "00000000 | 000102030405060708090A 0B0C0D0E0F ................\n"},
-			{"full row data, byte_group_size=12", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 12, "00000000 | 000102030405060708090A0B 0C0D0E0F ................\n"},
-			{"full row data, byte_group_size=13", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 13, "00000000 | 000102030405060708090A0B0C 0D0E0F ................\n"},
-			{"full row data, byte_group_size=14", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 14, "00000000 | 000102030405060708090A0B0C0D 0E0F ................\n"},
-			{"full row data, byte_group_size=15", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 15, "00000000 | 000102030405060708090A0B0C0D0E 0F ................\n"},
-			{"full row data, byte_group_size=16", {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f}, 16, 16, "00000000 | 000102030405060708090A0B0C0D0E0F  ................\n"},
+			{ "empty data", std::string(), tc::ByteData(), std::string()},
+			{ "single space", " ", tc::cli::FormatUtil::hexStringToBytes("20"), "IA=="},
+			{ "ascii string", "The quick brown fox jumps over the lazy dog.", tc::cli::FormatUtil::hexStringToBytes("54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e"), "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4="},
+			{ "512 bytes binary data", std::string(), tc::cli::FormatUtil::hexStringToBytes("85d278fb18be42a62a56b495d4ab56a803fad5a1c66153b0c8a8628c3222fe55c500fa9721d5bfebff31ec59dcf810ac4bd0d2939ae045e7fcc34a432b45aca93e2a7a35b8208e75e1477d02bfd2175ae4a2d68dbf1a882249ca3f2b36586db700fb47e954f9233c9a2227e850957bbb1f3da6e9b4693d38e09434a691451b897c8b1fbbd5de4921e1f84fc136dd1b9297ad5e065556cd2ce52ec6eed8133d83bfc4e54c7d715de5e2b7eed9898b9b5eebbd5d07ae22f83d87218f7fe7355b5b6379e4a3eb27d48a9e042aa637063aac9a0b7bc104758bee61321183c0bb1ffb8ceb8c3d0cbbd5a55fe7809df89bf0883d8d7c762673fbfc5fceb6b14b4b1a828da5059cb090a2286ae7efc64b09e033d70cb6a528c54cea3d90f35b8fdfd73a1e85604c827cf5719b488e37b8cda2e2baba5cec43b1d031e7e4a47f3baedb00c037779a6f0e9fab5c9c3c84236458378847acd174083570c628074417ebba551853299eea400dfa95a8aff5f1fd9c314225365023ee31a03930c0029d57feb81417d57f9f45f225faa3790c0b239891c82151a7449507cab70376975ba9f2e68f5e37544f848faf875b9e24dccb9c556aae2a57a7f369581d50dfdf06fdff27fd2107db080c4d9e1c100427a1493ddb5e80e43f943bbbad9113448b658a5a5cdefd70e57d0b28e2bd942a978179eb88d6661b30f2b5b346fff1d0a5c9b93d2d"), "hdJ4+xi+QqYqVrSV1KtWqAP61aHGYVOwyKhijDIi/lXFAPqXIdW/6/8x7Fnc+BCsS9DSk5rgRef8w0pDK0WsqT4qejW4II514Ud9Ar/SF1rkotaNvxqIIknKPys2WG23APtH6VT5IzyaIifoUJV7ux89pum0aT044JQ0ppFFG4l8ix+71d5JIeH4T8E23RuSl61eBlVWzSzlLsbu2BM9g7/E5Ux9cV3l4rfu2YmLm17rvV0HriL4PYchj3/nNVtbY3nko+sn1IqeBCqmNwY6rJoLe8EEdYvuYTIRg8C7H/uM64w9DLvVpV/ngJ34m/CIPY18diZz+/xfzraxS0sago2lBZywkKIoaufvxksJ4DPXDLalKMVM6j2Q81uP39c6HoVgTIJ89XGbSI43uM2i4rq6XOxDsdAx5+Skfzuu2wDAN3eabw6fq1ycPIQjZFg3iEes0XQINXDGKAdEF+u6VRhTKZ7qQA36laiv9fH9nDFCJTZQI+4xoDkwwAKdV/64FBfVf59F8iX6o3kMCyOYkcghUadElQfKtwN2l1up8uaPXjdUT4SPr4dbniTcy5xVaq4qV6fzaVgdUN/fBv3/J/0hB9sIDE2eHBAEJ6FJPdtegOQ/lDu7rZETRItlilpc3v1w5X0LKOK9lCqXgXnriNZmGzDytbNG//HQpcm5PS0="},
 		};
 
+		// run error path tests
+		{
+			tc::ByteData out = tc::encode::Base64Util::decodeBase64AsData(nullptr, 0xdeadbeef);
 
-		// run tests
+			if (out.data() != nullptr || out.size() != 0)
+			{
+				throw tc::TestException(fmt::format("decodeBase64AsData() did not return an empty tc::ByteData for invalid input: str=nullptr, size=0xdeadbeef"));
+			}
+		}
+		{
+			tc::ByteData out = tc::encode::Base64Util::decodeBase64AsData("not base 64");
+
+			if (out.data() != nullptr || out.size() != 0)
+			{
+				throw tc::TestException(fmt::format("decodeBase64AsData() did not return an empty tc::ByteData for invalid input: str=\"not base 64\""));
+			}
+		}
+
+		// run happy path tests
 		for (auto test = tests.begin(); test != tests.end(); test++)
 		{
-			std::string res = tc::encode::Base64Util::formatBytesAsHxdHexString(test->in_data.data(), test->in_data.size(), test->in_bytes_per_row, test->in_byte_group_size);
+			tc::ByteData out_1 = tc::encode::Base64Util::decodeBase64AsData(test->out_base64);
+			tc::ByteData out_2 = tc::encode::Base64Util::decodeBase64AsData(test->out_base64.data(), test->out_base64.size());
 
-			if (res != test->out_string)
+			// size should match
+			if (out_1.size() != test->in_data.size())
 			{
-				std::string& expected = test->out_string;
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) from base64, size was \"{:d}\" (should be: \"{:d}\")", test->test_name, test->out_base64, out_1.size(), test->in_data.size()));
+			}
 
-				// replace literal new lines so they can be printed on one line for debugging
-				for (size_t pos = res.find('\n', 0); pos != std::string::npos; pos = res.find('\n', pos+1))
-				{
-					res.replace(pos, 1, "\\n");
-				}
+			// if expected data was nullptr, so should actual
+			if (test->in_data.data() == nullptr && out_1.data() != nullptr)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) from base64, ret.data() should have been null", test->test_name, test->out_base64));
+			}
 
-				// replace literal new lines so they can be printed on one line for debugging
-				for (size_t pos = expected.find('\n', 0); pos != std::string::npos; pos = expected.find('\n', pos+1))
-				{
-					expected.replace(pos, 1, "\\n");
-				}
-				
-				throw tc::TestException(fmt::format("Test({:s}) Failed to format data correctly. Output: \"{:s}\", Expected: \"{:s}\"", test->test_name, res, expected));
+			// if the data was matching and non-zero, they should also match
+			if (memcmp(out_2.data(), test->in_data.data(), test->in_data.size()) != 0)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) from base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, test->out_base64, tc::cli::FormatUtil::formatBytesAsString(out_2, false, ""), tc::cli::FormatUtil::formatBytesAsString(test->in_data, false, "")));
+			}
+
+			// size should match
+			if (out_2.size() != test->in_data.size())
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}), size({:d}) from base64, size was \"{:d}\" (should be: \"{:d}\")", test->test_name, test->out_base64.c_str(), test->out_base64.size(), out_2.size(), test->in_data.size()));
+			}
+
+			// if expected data was nullptr, so should actual
+			if (test->in_data.data() == nullptr && out_2.data() != nullptr)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}), size({:d}) from base64, ret.data() should have been null", test->test_name, test->out_base64.c_str(), test->out_base64.size()));
+			}
+
+			// if the data was matching and non-zero, they should also match
+			if (memcmp(out_2.data(), test->in_data.data(), test->in_data.size()) != 0)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}), size({:d}) from base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, test->out_base64.c_str(), test->out_base64.size(), tc::cli::FormatUtil::formatBytesAsString(out_1, false, ""), tc::cli::FormatUtil::formatBytesAsString(test->in_data, false, "")));
+			}
+		}
+
+		// record result
+		test.result = "PASS";
+		test.comments = "";
+	}
+	catch (const tc::TestException& e)
+	{
+		// record result
+		test.result = "FAIL";
+		test.comments = e.what();
+	}
+	catch (const std::exception& e)
+	{
+		// record result
+		test.result = "UNHANDLED EXCEPTION";
+		test.comments = e.what();
+	}
+
+	// add result to list
+	mTestResults.push_back(std::move(test));
+}
+
+void encode_Base64Util_TestClass::testDecodeBase64AsString()
+{
+	TestResult test;
+	test.test_name = "testDecodeBase64AsString";
+	test.result = "NOT RUN";
+	test.comments = "";
+
+	try
+	{
+		struct TestCase
+		{
+			std::string test_name;
+			std::string in_string;
+			tc::ByteData in_data;
+			std::string out_base64;
+		};
+
+		// create happy path tests
+		std::vector<TestCase> tests = 
+		{
+			{ "empty data", std::string(), tc::ByteData(), std::string()},
+			{ "single space", " ", tc::cli::FormatUtil::hexStringToBytes("20"), "IA=="},
+			{ "ascii string", "The quick brown fox jumps over the lazy dog.", tc::cli::FormatUtil::hexStringToBytes("54686520717569636b2062726f776e20666f78206a756d7073206f76657220746865206c617a7920646f672e"), "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wcyBvdmVyIHRoZSBsYXp5IGRvZy4="},
+			// skip binary test as not a string
+			//{ "512 bytes binary data", std::string(), tc::cli::FormatUtil::hexStringToBytes("85d278fb18be42a62a56b495d4ab56a803fad5a1c66153b0c8a8628c3222fe55c500fa9721d5bfebff31ec59dcf810ac4bd0d2939ae045e7fcc34a432b45aca93e2a7a35b8208e75e1477d02bfd2175ae4a2d68dbf1a882249ca3f2b36586db700fb47e954f9233c9a2227e850957bbb1f3da6e9b4693d38e09434a691451b897c8b1fbbd5de4921e1f84fc136dd1b9297ad5e065556cd2ce52ec6eed8133d83bfc4e54c7d715de5e2b7eed9898b9b5eebbd5d07ae22f83d87218f7fe7355b5b6379e4a3eb27d48a9e042aa637063aac9a0b7bc104758bee61321183c0bb1ffb8ceb8c3d0cbbd5a55fe7809df89bf0883d8d7c762673fbfc5fceb6b14b4b1a828da5059cb090a2286ae7efc64b09e033d70cb6a528c54cea3d90f35b8fdfd73a1e85604c827cf5719b488e37b8cda2e2baba5cec43b1d031e7e4a47f3baedb00c037779a6f0e9fab5c9c3c84236458378847acd174083570c628074417ebba551853299eea400dfa95a8aff5f1fd9c314225365023ee31a03930c0029d57feb81417d57f9f45f225faa3790c0b239891c82151a7449507cab70376975ba9f2e68f5e37544f848faf875b9e24dccb9c556aae2a57a7f369581d50dfdf06fdff27fd2107db080c4d9e1c100427a1493ddb5e80e43f943bbbad9113448b658a5a5cdefd70e57d0b28e2bd942a978179eb88d6661b30f2b5b346fff1d0a5c9b93d2d"), "hdJ4+xi+QqYqVrSV1KtWqAP61aHGYVOwyKhijDIi/lXFAPqXIdW/6/8x7Fnc+BCsS9DSk5rgRef8w0pDK0WsqT4qejW4II514Ud9Ar/SF1rkotaNvxqIIknKPys2WG23APtH6VT5IzyaIifoUJV7ux89pum0aT044JQ0ppFFG4l8ix+71d5JIeH4T8E23RuSl61eBlVWzSzlLsbu2BM9g7/E5Ux9cV3l4rfu2YmLm17rvV0HriL4PYchj3/nNVtbY3nko+sn1IqeBCqmNwY6rJoLe8EEdYvuYTIRg8C7H/uM64w9DLvVpV/ngJ34m/CIPY18diZz+/xfzraxS0sago2lBZywkKIoaufvxksJ4DPXDLalKMVM6j2Q81uP39c6HoVgTIJ89XGbSI43uM2i4rq6XOxDsdAx5+Skfzuu2wDAN3eabw6fq1ycPIQjZFg3iEes0XQINXDGKAdEF+u6VRhTKZ7qQA36laiv9fH9nDFCJTZQI+4xoDkwwAKdV/64FBfVf59F8iX6o3kMCyOYkcghUadElQfKtwN2l1up8uaPXjdUT4SPr4dbniTcy5xVaq4qV6fzaVgdUN/fBv3/J/0hB9sIDE2eHBAEJ6FJPdtegOQ/lDu7rZETRItlilpc3v1w5X0LKOK9lCqXgXnriNZmGzDytbNG//HQpcm5PS0="},
+		};
+
+		// run error path tests
+		{
+			std::string out = tc::encode::Base64Util::decodeBase64AsString(nullptr, 0xdeadbeef);
+
+			if (out != "")
+			{
+				throw tc::TestException(fmt::format("decodeBase64AsString() did not return an empty string for invalid input: str=nullptr, size=0xdeadbeef"));
+			}
+		}
+		{
+			std::string out = tc::encode::Base64Util::decodeBase64AsString("not base 64");
+
+			if (out != "")
+			{
+				throw tc::TestException(fmt::format("decodeBase64AsString() did not return an empty string for invalid input: str=\"not base 64\""));
+			}
+		}
+
+		// run happy path tests
+		for (auto test = tests.begin(); test != tests.end(); test++)
+		{
+			std::string out_1 = tc::encode::Base64Util::decodeBase64AsString(test->out_base64);
+			std::string out_2 = tc::encode::Base64Util::decodeBase64AsString(test->out_base64.data(), test->out_base64.size());
+
+			if (out_1 != test->in_string)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}) from base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, test->out_base64, out_1, test->in_string));
+			}
+
+			if (out_2 != test->in_string)
+			{
+				throw tc::TestException(fmt::format("Test({:s}) to convert str({:s}), size({:d}) from base64, returned \"{:s}\" (should be: \"{:s}\")", test->test_name, test->out_base64.c_str(), test->out_base64.size(), test->in_data.size(), out_2, test->in_string));
 			}
 		}
 

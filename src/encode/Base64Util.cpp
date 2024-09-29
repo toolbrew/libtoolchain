@@ -9,14 +9,15 @@ inline std::string byteDataAsString(const tc::ByteData& data)
 	if (data.size() == 0)
 		return std::string();
 
-	return std::string((char*)data.data(), data.size());
+	return std::string((char*)data.data());
 }
 
-tc::ByteData tc::encode::Base64Util::encodeDataAsBase64Data(const byte_t* data, size_t size)
+
+std::string tc::encode::Base64Util::encodeDataAsBase64(const byte_t* data, size_t size)
 {
 	if (data == nullptr && size != 0)
 	{
-		return tc::ByteData();
+		return "";
 	}
 
 	size_t enc_len = 0;
@@ -27,90 +28,53 @@ tc::ByteData tc::encode::Base64Util::encodeDataAsBase64Data(const byte_t* data, 
 
 	int mbedtls_ret = mbedtls_base64_encode(enc_data.data(), enc_data.size(), &enc_len, data, size);
 	if (mbedtls_ret != 0)
-		return tc::ByteData();
+		enc_data = tc::ByteData();
 
-	return enc_data;
+	return byteDataAsString(enc_data);
 }
-
-tc::ByteData tc::encode::Base64Util::encodeDataAsBase64Data(const tc::ByteData& data)
+std::string tc::encode::Base64Util::encodeDataAsBase64(const tc::ByteData& data)
 {
-	return encodeDataAsBase64Data(data.data(), data.size());
-}
-
-std::string tc::encode::Base64Util::encodeDataAsBase64String(const byte_t* data, size_t size)
-{
-	return byteDataAsString(encodeDataAsBase64Data(data, size));
-}
-std::string tc::encode::Base64Util::encodeDataAsBase64String(const tc::ByteData& data)
-{
-	return encodeDataAsBase64String(data.data(), data.size());
+	return encodeDataAsBase64(data.data(), data.size());
 }
 
-tc::ByteData tc::encode::Base64Util::encodeStringAsBase64Data(const char* data, size_t size)
+std::string tc::encode::Base64Util::encodeStringAsBase64(const char* str, size_t size)
 {
-	return encodeDataAsBase64Data((const byte_t*)data, size);
+	return encodeDataAsBase64((const byte_t*)str, size);
 }
-tc::ByteData tc::encode::Base64Util::encodeStringAsBase64Data(const std::string& data)
+std::string tc::encode::Base64Util::encodeStringAsBase64(const std::string& str)
 {
-	return encodeStringAsBase64Data(data.c_str(), data.size());
-}
-
-std::string tc::encode::Base64Util::encodeStringAsBase64String(const char* data, size_t size)
-{
-	return byteDataAsString(encodeStringAsBase64Data(data, size));
-}
-std::string tc::encode::Base64Util::encodeStringAsBase64String(const std::string& data)
-{
-	return byteDataAsString(encodeStringAsBase64Data(data));
+	return encodeDataAsBase64((const byte_t*)str.c_str(), str.size());
 }
 
-tc::ByteData tc::encode::Base64Util::decodeBase64DataAsData(const byte_t* data, size_t size)
+tc::ByteData tc::encode::Base64Util::decodeBase64AsData(const char* str, size_t size)
 {
-	if (data == nullptr && size != 0)
+	if (str == nullptr && size != 0)
 	{
 		return tc::ByteData();
 	}
 
 	size_t dec_len = 0;
 
-	mbedtls_base64_decode(nullptr, dec_len, &dec_len, data, size);
+	mbedtls_base64_decode(nullptr, dec_len, &dec_len, (const byte_t*)str, size);
 
 	tc::ByteData dec_data = tc::ByteData(dec_len);
 
-	int mbedtls_ret = mbedtls_base64_decode(dec_data.data(), dec_data.size(), &dec_len, data, size);
+	int mbedtls_ret = mbedtls_base64_decode(dec_data.data(), dec_data.size(), &dec_len, (const byte_t*)str, size);
 	if (mbedtls_ret != 0)
-		return tc::ByteData();
+		dec_data = tc::ByteData();
 
 	return dec_data;
 }
-tc::ByteData tc::encode::Base64Util::decodeBase64DataAsData(const tc::ByteData& data)
+tc::ByteData tc::encode::Base64Util::decodeBase64AsData(const std::string& str)
 {
-	return decodeBase64DataAsData(data.data(), data.size());
+	return decodeBase64AsData(str.c_str(), str.size());
 }
 
-std::string tc::encode::Base64Util::decodeBase64DataAsString(const byte_t* data, size_t size)
+std::string tc::encode::Base64Util::decodeBase64AsString(const char* str, size_t size)
 {
-	return byteDataAsString(decodeBase64DataAsData(data, size));
+	return byteDataAsString(decodeBase64AsData(str, size));
 }
-std::string tc::encode::Base64Util::decodeBase64DataAsString(const tc::ByteData& data)
+std::string tc::encode::Base64Util::decodeBase64AsString(const std::string& str)
 {
-	return byteDataAsString(decodeBase64DataAsData(data));
-}
-
-tc::ByteData tc::encode::Base64Util::decodeBase64StringAsData(const char* data, size_t size)
-{
-	return decodeBase64DataAsData((const byte_t*)data, size);
-}
-tc::ByteData tc::encode::Base64Util::decodeBase64StringAsData(const std::string& data)
-{
-	return decodeBase64DataAsData((const byte_t*)data.c_str(), data.size());
-}
-	
-std::string tc::encode::Base64Util::decodeBase64StringAsString(const char* data, size_t size)
-{
-	return byteDataAsString(decodeBase64DataAsData((const byte_t*)data, size));
-}
-std::string tc::encode::Base64Util::decodeBase64StringAsString(const std::string& data)
-{
-	return byteDataAsString(decodeBase64DataAsData((const byte_t*)data.c_str(), data.size()));
+	return byteDataAsString(decodeBase64AsData(str));
 }

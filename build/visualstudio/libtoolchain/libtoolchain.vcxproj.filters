@@ -178,6 +178,9 @@
     <ClCompile Include="..\..\..\src\crypto\detail\TdesImpl.cpp">
       <Filter>Source Files\crypto\detail</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\encode\Base64Util.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\io\BasicPathResolver.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
@@ -570,6 +573,12 @@
     <ClInclude Include="..\..\..\include\tc\crypto.h" >
         <Filter>Header Files\tc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\encode\Base64Util.h" >
+        <Filter>Header Files\tc\encode</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\encode.h" >
+        <Filter>Header Files\tc</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\tc\io\BasicPathResolver.h" >
         <Filter>Header Files\tc\io</Filter>
     </ClInclude>
@@ -743,6 +752,9 @@
     <Filter Include="Header Files\tc\crypto\detail">
       <UniqueIdentifier>{07fdaf97-dd39-4b5e-8679-5f3a45ff300e}</UniqueIdentifier>
     </Filter>
+     <Filter Include="Header Files\tc\encode">
+      <UniqueIdentifier>{2b186524-afb8-4bab-bd5a-7fb9ee579131}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\tc\io">
       <UniqueIdentifier>{db3218f8-61c4-444c-9758-eaf0a3fc7cb5}</UniqueIdentifier>
     </Filter>
@@ -766,6 +778,9 @@
     </Filter>
     <Filter Include="Source Files\crypto\detail">
       <UniqueIdentifier>{e80dca43-1a2b-4037-8751-245a3b07d04a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\encode">
+      <UniqueIdentifier>{aba2432e-d6dc-403e-84f4-4e2c7d24e681}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\io">
       <UniqueIdentifier>{b6397317-93c5-48d9-a2bd-107761509eb7}</UniqueIdentifier>

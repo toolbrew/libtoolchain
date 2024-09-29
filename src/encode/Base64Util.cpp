@@ -44,6 +44,7 @@ std::string tc::encode::Base64Util::encodeDataAsBase64(const byte_t* data, size_
 
 	return byteDataAsString(enc_data);
 }
+
 std::string tc::encode::Base64Util::encodeDataAsBase64(const tc::ByteData& data)
 {
 	return encodeDataAsBase64(data.data(), data.size());
@@ -53,6 +54,7 @@ std::string tc::encode::Base64Util::encodeStringAsBase64(const char* str, size_t
 {
 	return encodeDataAsBase64((const byte_t*)str, size);
 }
+
 std::string tc::encode::Base64Util::encodeStringAsBase64(const std::string& str)
 {
 	return encodeDataAsBase64((const byte_t*)str.c_str(), str.size());
@@ -77,6 +79,7 @@ tc::ByteData tc::encode::Base64Util::decodeBase64AsData(const char* str, size_t 
 
 	return dec_data;
 }
+
 tc::ByteData tc::encode::Base64Util::decodeBase64AsData(const std::string& str)
 {
 	return decodeBase64AsData(str.c_str(), str.size());
@@ -86,7 +89,8 @@ std::string tc::encode::Base64Util::decodeBase64AsString(const char* str, size_t
 {
 	return byteDataAsString(decodeBase64AsData(str, size));
 }
+
 std::string tc::encode::Base64Util::decodeBase64AsString(const std::string& str)
 {
-	return byteDataAsString(decodeBase64AsData(str));
+	return byteDataAsString(decodeBase64AsData(str.data(), str.size()));
 }

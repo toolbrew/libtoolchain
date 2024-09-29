@@ -6,12 +6,24 @@
 
 inline std::string byteDataAsString(const tc::ByteData& data)
 {
-	if (data.size() == 0)
-		return std::string();
+	std::string str = "";
+	
+	if (data.size() > 0)
+	{
+		str = std::string((const char*)data.data());
+	}
 
-	return std::string((char*)data.data());
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if ( ! std::isprint(static_cast<unsigned char>(str[i])) )
+		{
+			str = "";
+			break;
+		}
+	}
+
+	return str;
 }
-
 
 std::string tc::encode::Base64Util::encodeDataAsBase64(const byte_t* data, size_t size)
 {

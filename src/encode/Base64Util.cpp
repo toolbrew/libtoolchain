@@ -2,10 +2,36 @@
 
 #include <fmt/core.h>
 
+#include <mbedtls/base64.h>
+
+inline std::string byteDataAsString(const tc::ByteData& data)
+{
+	if (data.size() == 0)
+		return std::string();
+
+	return std::string((char*)data.data(), data.size());
+}
+
 tc::ByteData tc::encode::Base64Util::encodeDataAsBase64Data(const byte_t* data, size_t size)
 {
-	return tc::ByteData();
+	if (data == nullptr && size != 0)
+	{
+		return tc::ByteData();
+	}
+
+	size_t enc_len = 0;
+
+	mbedtls_base64_encode(nullptr, enc_len, &enc_len, data, size);
+
+	tc::ByteData enc_data = tc::ByteData(enc_len);
+
+	int mbedtls_ret = mbedtls_base64_encode(enc_data.data(), enc_data.size(), &enc_len, data, size);
+	if (mbedtls_ret != 0)
+		return tc::ByteData();
+
+	return enc_data;
 }
+
 tc::ByteData tc::encode::Base64Util::encodeDataAsBase64Data(const tc::ByteData& data)
 {
 	return encodeDataAsBase64Data(data.data(), data.size());
@@ -13,8 +39,7 @@ tc::ByteData tc::encode::Base64Util::encodeDataAsBase64Data(const tc::ByteData& 
 
 std::string tc::encode::Base64Util::encodeDataAsBase64String(const byte_t* data, size_t size)
 {
-	tc::ByteData encoded = encodeDataAsBase64Data(data, size);
-	return std::string((char*)data.data(), data.size());
+	return byteDataAsString(encodeDataAsBase64Data(data, size));
 }
 std::string tc::encode::Base64Util::encodeDataAsBase64String(const tc::ByteData& data)
 {
@@ -23,276 +48,69 @@ std::string tc::encode::Base64Util::encodeDataAsBase64String(const tc::ByteData&
 
 tc::ByteData tc::encode::Base64Util::encodeStringAsBase64Data(const char* data, size_t size)
 {
-	return tc::ByteData();
+	return encodeDataAsBase64Data((const byte_t*)data, size);
 }
 tc::ByteData tc::encode::Base64Util::encodeStringAsBase64Data(const std::string& data)
 {
-	
+	return encodeStringAsBase64Data(data.c_str(), data.size());
 }
 
 std::string tc::encode::Base64Util::encodeStringAsBase64String(const char* data, size_t size)
 {
-
+	return byteDataAsString(encodeStringAsBase64Data(data, size));
 }
 std::string tc::encode::Base64Util::encodeStringAsBase64String(const std::string& data)
 {
-
+	return byteDataAsString(encodeStringAsBase64Data(data));
 }
 
 tc::ByteData tc::encode::Base64Util::decodeBase64DataAsData(const byte_t* data, size_t size)
 {
-
-}
-tc::ByteData tc::encode::Base64Util::decodeBase64DataAsData(const tc::ByteData& data)
-{
-
-}
-
-std::string tc::encode::Base64Util::decodeBase64DataAsString(const byte_t* data, size_t size)
-{
-
-}
-std::string tc::encode::Base64Util::decodeBase64DataAsString(const tc::ByteData& data)
-{
-
-}
-
-tc::ByteData tc::encode::Base64Util::decodeBase64StringAsData(const char* data, size_t size)
-{
-
-}
-tc::ByteData tc::encode::Base64Util::decodeBase64StringAsData(const std::string& data)
-{
-
-}
-	
-std::string tc::encode::Base64Util::decodeBase64StringAsString(const char* data, size_t size)
-{
-
-}
-std::string tc::encode::Base64Util::decodeBase64StringAsString(const std::string& data)
-{
-
-}
-
-
-/*
-inline int charToByte(char chr)
-{
-	if (chr >= 'a' && chr <= 'f')
-		return (chr - 'a') + 0xa;
-	else if (chr >= 'A' && chr <= 'F')
-		return (chr - 'A') + 0xa; 
-	else if (chr >= '0' && chr <= '9')
-		return chr - '0';
-	return -1;
-}
-
-tc::ByteData tc::cli::FormatUtil::hexStringToBytes(const std::string& str)
-{
-	size_t size = str.size();
-	if ((size % 2))
+	if (data == nullptr && size != 0)
 	{
 		return tc::ByteData();
 	}
 
-	auto bytes = tc::ByteData(size/2);
+	size_t dec_len = 0;
 
-	for (size_t i = 0; i < bytes.size(); i++)
-	{
-		int byte = 0;
+	mbedtls_base64_decode(nullptr, dec_len, &dec_len, data, size);
 
-		byte = charToByte(str[i * 2]);
-		if (byte == -1)
-			return tc::ByteData();
+	tc::ByteData dec_data = tc::ByteData(dec_len);
 
-		bytes.data()[i] = byte_t((byte & 0xf) << 4);
+	int mbedtls_ret = mbedtls_base64_decode(dec_data.data(), dec_data.size(), &dec_len, data, size);
+	if (mbedtls_ret != 0)
+		return tc::ByteData();
 
-		byte = charToByte(str[(i * 2) + 1]);
-		if (byte == -1)
-			return tc::ByteData();
-		
-		bytes.data()[i] |= byte_t((byte & 0xf) << 0);
-	}
-
-	return bytes;
+	return dec_data;
 }
-
-std::string tc::cli::FormatUtil::formatBytesAsStringWithLineLimit(const byte_t* data, size_t len, bool upper_case, const std::string& delimiter, size_t row_len, size_t indent_len, bool print_first_indent)
+tc::ByteData tc::encode::Base64Util::decodeBase64DataAsData(const tc::ByteData& data)
 {
-	// create indentation string
-	std::string indent_str = "";
-	for (size_t i = 0; i < indent_len; i++)
-	{
-		indent_str += " ";
-	}
-
-	const byte_t* original_data = data;
-
-	// create output string
-	std::string output_str = "";
-
-	for (size_t print_len = 0; len > 0; len -= print_len, data += print_len)
-	{
-		if (data != original_data || print_first_indent)
-		{
-			output_str += indent_str;
-		}
-
-		print_len = std::min<size_t>(len, row_len);  
-
-		output_str += formatBytesAsString(data, print_len, upper_case, delimiter);
-
-		output_str += fmt::format("\n");
-	}
-
-	return output_str;
+	return decodeBase64DataAsData(data.data(), data.size());
 }
 
-std::string tc::cli::FormatUtil::formatBytesAsString(const byte_t* data, size_t size, bool upper_case, const std::string& delimiter)
+std::string tc::encode::Base64Util::decodeBase64DataAsString(const byte_t* data, size_t size)
 {
-	// create output string
-	std::string output_str;
-
-	for (size_t i = 0; i < size; i++)
-	{
-		output_str += fmt::format((upper_case ? "{:02X}" : "{:02x}"), data[i]);
-		if (i+1 < size)
-		{
-			output_str += delimiter;
-		}	
-	}
-
-	return output_str;
+	return byteDataAsString(decodeBase64DataAsData(data, size));
 }
-
-std::string tc::cli::FormatUtil::formatBytesAsString(const tc::ByteData& data, bool upper_case, const std::string& delimiter)
+std::string tc::encode::Base64Util::decodeBase64DataAsString(const tc::ByteData& data)
 {
-	return formatBytesAsString(data.data(), data.size(), upper_case, delimiter);
+	return byteDataAsString(decodeBase64DataAsData(data));
 }
 
-
-std::string tc::cli::FormatUtil::formatListWithLineLimit(const std::vector<std::string>& str_list, size_t row_len, size_t indent_len, bool print_first_indent)
+tc::ByteData tc::encode::Base64Util::decodeBase64StringAsData(const char* data, size_t size)
 {
-	if (str_list.size() == 0)
-	{
-		return "";
-	}
-
-	// create output string
-	std::string output_str = "";
-
-	// create indentation string
-	std::string indent_str = "";
-	for (size_t i = 0; i < indent_len; i++)
-	{
-		indent_str += " ";
-	}
-
-	// create delimiter string
-	std::string delimiter_str = ", ";
-
-	size_t printed_len = 0;
-	for (auto itr = str_list.begin(); itr != str_list.end(); itr++)
-	{
-		// format the strings
-		// wrap the line after row_len multples
-		if (printed_len > row_len || printed_len == 0)
-		{
-			// don't print the new line if this is the first string
-			if (itr != str_list.begin())
-			{
-				output_str += fmt::format("{:s}\n", delimiter_str);
-			}	
-
-			// print indent if this isn't the first string or the user has opted into printing the indent regardless
-			if (itr != str_list.begin() || print_first_indent)
-			{
-				output_str += indent_str;
-			}
-
-			// reset printed_len
-			printed_len = 0;
-		}
-		// within a line we want to separate the next string from the last one with a comma and a space
-		else
-		{
-			//ss << delimiter_str;
-			output_str += delimiter_str;
-		}
-		
-		// print string
-		output_str += *itr;
-
-		// note the length of the string printed
-		printed_len += itr->size() + delimiter_str.size();
-	}
-	output_str += fmt::format("\n");
-
-	return output_str;
+	return decodeBase64DataAsData((const byte_t*)data, size);
 }
-
-std::string tc::cli::FormatUtil::formatBytesAsHxdHexString(const byte_t* data, size_t size, size_t bytes_per_row, size_t byte_group_size)
+tc::ByteData tc::encode::Base64Util::decodeBase64StringAsData(const std::string& data)
 {
-	if (size == 0 || bytes_per_row == 0 || byte_group_size == 0)
-	{
-		return "";
-	}
-
-	// create output string
-	std::string output_str = "";
-
-	// iterate over blocks
-	for (size_t i = 0; size > 0; i++)
-	{
-		size_t row_print_len = std::min<size_t>(size, bytes_per_row);
-
-		output_str += fmt::format("{:08x} | ", uint64_t(i) * uint64_t(bytes_per_row));
-
-		// for block i print each byte
-		for (size_t j = 0; j < bytes_per_row; j++)
-		{
-			if (j < row_print_len)
-			{
-				output_str += fmt::format("{:02X}", data[(i * bytes_per_row) + j]);
-			}
-			else
-			{
-				output_str += "  ";
-			}
-				
-
-			if (((j+1) % byte_group_size) == 0) 
-			{
-				output_str += " ";
-			}
-		}
-
-		output_str += " "; 
-
-		for (size_t j = 0; j < bytes_per_row; j++)
-		{
-			if (j < row_print_len)
-			{
-				byte_t byte = data[(i * bytes_per_row) + j];
-				output_str += fmt::format("{:c}", (iscntrl(byte) == 0 && byte < 0x7f) ? (char)byte : '.');
-			}
-			else
-			{
-				output_str += " ";
-			}
-		}
-
-		output_str += fmt::format("\n");
-
-		size -= row_print_len;
-	}
-
-	return output_str;
+	return decodeBase64DataAsData((const byte_t*)data.c_str(), data.size());
 }
-
-std::string tc::cli::FormatUtil::formatBytesAsHxdHexString(const byte_t* data, size_t size)
+	
+std::string tc::encode::Base64Util::decodeBase64StringAsString(const char* data, size_t size)
 {
-	return formatBytesAsHxdHexString(data, size, 0x10, 1);
+	return byteDataAsString(decodeBase64DataAsData((const byte_t*)data, size));
 }
-*/
+std::string tc::encode::Base64Util::decodeBase64StringAsString(const std::string& data)
+{
+	return byteDataAsString(decodeBase64DataAsData((const byte_t*)data.c_str(), data.size()));
+}

@@ -205,6 +205,7 @@
     <ClCompile Include="..\..\..\test\crypto_Tdes112EcbEncryptor_TestClass.cpp" />
     <ClCompile Include="..\..\..\test\crypto_Tdes168CbcEncryptor_TestClass.cpp" />
     <ClCompile Include="..\..\..\test\crypto_Tdes168EcbEncryptor_TestClass.cpp" />
+    <ClCompile Include="..\..\..\test\encode_Base64Util_TestClass.cpp" />
     <ClCompile Include="..\..\..\test\Optional_TestClass.cpp" />
     <ClCompile Include="..\..\..\test\PbkdfUtil.cpp" />
     <ClCompile Include="..\..\..\test\RsaOaepUtil.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="..\..\..\test\crypto_Tdes112EcbEncryptor_TestClass.h" />
     <ClInclude Include="..\..\..\test\crypto_Tdes168CbcEncryptor_TestClass.h" />
     <ClInclude Include="..\..\..\test\crypto_Tdes168EcbEncryptor_TestClass.h" />
+    <ClInclude Include="..\..\..\test\encode_Base64Util_TestClass.h" />
     <ClInclude Include="..\..\..\test\ITestClass.h" />
     <ClInclude Include="..\..\..\test\Optional_TestClass.h" />
     <ClInclude Include="..\..\..\test\PbkdfUtil.h" />

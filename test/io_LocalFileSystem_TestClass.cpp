@@ -1338,6 +1338,9 @@ void io_LocalFileSystem_TestClass::test_GetCanonicalPath_DoesExist()
 
 		// restore pre-test directory
 		local_fs.setWorkingDirectory(pre_test_dir);
+
+		// remove directory made in root dir
+		local_fs.removeDirectory(base_dir_relative_path);
 	}
 	catch (const std::exception& e)
 	{
@@ -1446,6 +1449,9 @@ void io_LocalFileSystem_TestClass::test_GetCanonicalPath_NotExist()
 
 		// restore pre-test directory
 		local_fs.setWorkingDirectory(pre_test_dir);
+
+		// remove directory made in root dir
+		local_fs.removeDirectory(base_dir_relative_path);
 	}
 	catch (const std::exception& e)
 	{

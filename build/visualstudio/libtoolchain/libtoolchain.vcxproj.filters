@@ -19,6 +19,9 @@
     <ClCompile Include="..\..\..\src\cli\OptionParser.cpp">
       <Filter>Source Files\cli</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\crypto\Aes128CbcEncryptedStream.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\crypto\Aes128CbcEncryptor.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
@@ -76,6 +79,9 @@
     <ClCompile Include="..\..\..\src\crypto\HmacSha2512Generator.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\crypto\Md5Generator.cpp">
+      <Filter>Source Files\crypto</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\crypto\Pbkdf1Md5KeyDeriver.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
@@ -89,9 +95,6 @@
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\crypto\Pbkdf2Sha2512KeyDeriver.cpp">
-      <Filter>Source Files\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\crypto\Md5Generator.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\crypto\PseudoRandomByteGenerator.cpp">
@@ -112,10 +115,10 @@
     <ClCompile Include="..\..\..\src\crypto\RsaPkcs1Md5Signer.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\crypto\RsaPkcs1Sha2256Signer.cpp">
+    <ClCompile Include="..\..\..\src\crypto\RsaPkcs1Sha1Signer.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\crypto\RsaPkcs1Sha1Signer.cpp">
+    <ClCompile Include="..\..\..\src\crypto\RsaPkcs1Sha2256Signer.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\crypto\RsaPkcs1Sha2512Signer.cpp">
@@ -124,10 +127,10 @@
     <ClCompile Include="..\..\..\src\crypto\RsaPssSha2256Signer.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\crypto\Sha1Generator.cpp">
+    <ClCompile Include="..\..\..\src\crypto\RsaPssSha2512Signer.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\crypto\RsaPssSha2512Signer.cpp">
+    <ClCompile Include="..\..\..\src\crypto\Sha1Generator.cpp">
       <Filter>Source Files\crypto</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\crypto\Sha2256Generator.cpp">
@@ -175,16 +178,19 @@
     <ClCompile Include="..\..\..\src\crypto\detail\TdesImpl.cpp">
       <Filter>Source Files\crypto\detail</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\io\BasicPathResolver.cpp">
+    <ClCompile Include="..\..\..\src\encode\Base64Util.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\io\FileStream.cpp">
+    <ClCompile Include="..\..\..\src\io\BasicPathResolver.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\io\ConcatenatedStream.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\io\EmptyStream.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\io\FileStream.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\io\IOUtil.cpp">
@@ -220,13 +226,13 @@
     <ClCompile Include="..\..\..\src\io\StreamUtil.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\io\SubFileSystem.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\io\SubSink.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\io\SubSource.cpp">
-      <Filter>Source Files\io</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\io\SubFileSystem.cpp">
       <Filter>Source Files\io</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\io\SubStream.cpp">
@@ -239,465 +245,492 @@
       <Filter>Source Files\os</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\string\TranscodeUtil.cpp">
-      <Filter>Source Files\string</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\crypto\Aes128CbcEncryptedStream.cpp">
-      <Filter>Source Files\crypto</Filter>
+      <Filter>Source Files\os</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\include\tc.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\include\tc\AccessViolationException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\AccessViolationException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ArgumentException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ArgumentException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ArgumentNullException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ArgumentNullException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ArgumentOutOfRangeException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ArgumentOutOfRangeException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ArithmeticException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ArithmeticException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ByteData.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\bn.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\Exception.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ByteData.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\InvalidOperationException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\cli.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\NotImplementedException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\NotSupportedException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\Exception.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ObjectDisposedException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\InvalidOperationException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\Optional.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\OutOfMemoryException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\NotImplementedException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\OverflowException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\NotSupportedException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\PlatformErrorHandlingUtil.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ObjectDisposedException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\ResourceStatus.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\Optional.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\SecurityException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\os.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\UnauthorisedAccessException.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\OutOfMemoryException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\bn\binary_utils.h" >
+        <Filter>Header Files\tc\bn</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\OverflowException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\bn\bitarray.h" >
+        <Filter>Header Files\tc\bn</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\PlatformErrorHandlingUtil.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\bn\endian_types.h" >
+        <Filter>Header Files\tc\bn</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\ResourceStatus.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\bn\pad.h" >
+        <Filter>Header Files\tc\bn</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\string.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\bn\string.h" >
+        <Filter>Header Files\tc\bn</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\types.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\bn.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\bn\binary_utils.h">
-      <Filter>Header Files\tc\bn</Filter>
+    <ClInclude Include="..\..\..\include\tc\cli\FormatUtil.h" >
+        <Filter>Header Files\tc\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\bn\bitarray.h">
-      <Filter>Header Files\tc\bn</Filter>
+    <ClInclude Include="..\..\..\include\tc\cli\OptionParser.h" >
+        <Filter>Header Files\tc\cli</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\bn\endian_types.h">
-      <Filter>Header Files\tc\bn</Filter>
+    <ClInclude Include="..\..\..\include\tc\cli.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\bn\pad.h">
-      <Filter>Header Files\tc\bn</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptedStream.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\bn\string.h">
-      <Filter>Header Files\tc\bn</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\UnauthorisedAccessException.h">
-      <Filter>Header Files\tc</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CcmEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\cli\FormatUtil.h">
-      <Filter>Header Files\tc\cli</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CtrEncryptedStream.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\cli\OptionParser.h">
-      <Filter>Header Files\tc\cli</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CtrEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CcmEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes128XtsEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CtrEncryptedStream.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes192CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CtrEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes192CtrEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes192EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128XtsEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes256CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes192CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes256CtrEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes192CtrEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes256EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes192EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Aes256XtsEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes256CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\AesEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes256CtrEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes256EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\CcmEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes256XtsEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\CryptoException.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\AesEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\CtrEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Des56CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Des56CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Des56EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Des56EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\DesEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\DesEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\CryptoException.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\HmacGenerator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\CtrEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\HmacMd5Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\HmacSha1Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\HmacGenerator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\HmacSha2256Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\HmacMd5Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\HmacSha2512Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\HmacSha1Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Md5Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\HmacSha2256Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf1KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\HmacSha2512Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf1Md5KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Md5Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf1Sha1KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf1KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf1Md5KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2Sha1KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf1Sha1KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2Sha2256KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2Sha2512KeyDeriver.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2Sha1KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\PseudoRandomByteGenerator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2Sha2256KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaKey.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Pbkdf2Sha2512KeyDeriver.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaKeyGenerator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\PseudoRandomByteGenerator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaOaepEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaKey.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaOaepSha2256Encryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaKeyGenerator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaOaepSha2512Encryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaOaepEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Md5Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaOaepSha2256Encryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Sha1Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaOaepSha2512Encryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Sha2256Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Md5Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Sha2512Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Sha1Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Sha2256Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPssSha2256Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Sha2512Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPssSha2512Signer.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPkcs1Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\RsaPssSigner.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPssSha2256Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Sha1Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPssSha2512Signer.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Sha2256Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\RsaPssSigner.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Sha2512Generator.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Sha1Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Tdes112CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Sha2256Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Tdes112EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Sha2512Generator.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Tdes168CbcEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Tdes112CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\Tdes168EcbEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Tdes112EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\TdesEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Tdes168CbcEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\XtsEncryptor.h" >
+        <Filter>Header Files\tc\crypto</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Tdes168EcbEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\AesImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\TdesEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\BlockUtilImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\XtsEncryptor.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\CbcModeImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\AesImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\CcmModeImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\DesImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\CtrModeImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\BlockUtilImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\DesImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\CbcModeImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\EcbModeImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\CtrModeImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\HmacImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\EcbModeImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\Md5Impl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\HmacImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\Pbkdf1Impl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\Md5Impl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\Pbkdf2Impl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\Pbkdf1Impl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\PrbgImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\Pbkdf2Impl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\PrbgImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaKeyGeneratorImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaOaepPadding.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaKeyGeneratorImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaPkcs1Padding.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaOaepPadding.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaPssPadding.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaPkcs1Padding.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\Sha1Impl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\RsaPssPadding.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\Sha2Impl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\Sha1Impl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\TdesImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\Sha2Impl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto\detail\XtsModeImpl.h" >
+        <Filter>Header Files\tc\crypto\detail</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\TdesImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\crypto.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\detail\XtsModeImpl.h">
-      <Filter>Header Files\tc\crypto\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\encode\Base64Util.h" >
+        <Filter>Header Files\tc\encode</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\BasicPathResolver.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\encode.h" >
+        <Filter>Header Files\tc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\ConcatenatedStream.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\BasicPathResolver.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\EmptyStream.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\ConcatenatedStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotEmptyException.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\EmptyStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotFoundException.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotEmptyException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\FileAccess.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotFoundException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\FileExistsException.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\BasicPathResolver.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\FileMode.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\ConcatenatedStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\FileNotFoundException.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotEmptyException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\FileStream.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\DirectoryNotFoundException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IOException.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\EmptyStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IOUtil.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\FileAccess.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IPathResolver.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\FileExistsException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IPortablePathResolver.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\FileMode.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IReadableSink.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\FileNotFoundException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\ISink.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\FileStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\ISource.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IFileSystem.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IFileSystem.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IOException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\IStream.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IOUtil.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\LocalFileSystem.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IPathResolver.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\MemorySource.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IPortablePathResolver.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\MemoryStream.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IReadableSink.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\OverlayedSource.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\ISink.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\PaddingSource.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\ISource.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\Path.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\IStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\PathTooLongException.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\LocalFileSystem.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\PathUtil.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\MemorySource.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\SeekOrigin.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\MemoryStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\StreamSink.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\OverlayedSource.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\StreamSource.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\PaddingSource.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\StreamUtil.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\Path.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\SubSink.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\PathTooLongException.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\SubSource.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\PathUtil.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\SubFileSystem.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\SeekOrigin.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\SubStream.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\StreamSink.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\io\VirtualFileSystem.h">
-      <Filter>Header Files\tc\io</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\StreamSource.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\os\Environment.h">
-      <Filter>Header Files\tc\os</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\StreamUtil.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\os\UnicodeMain.h">
-      <Filter>Header Files\tc\os</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\SubFileSystem.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\string\TranscodeUtil.h">
-      <Filter>Header Files\tc\string</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\SubSink.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\string\detail\utf8.h">
-      <Filter>Header Files\tc\string\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\SubSource.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\string\detail\utf16.h">
-      <Filter>Header Files\tc\string\detail</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\SubStream.h" >
+        <Filter>Header Files\tc\io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\tc\crypto\Aes128CbcEncryptedStream.h">
-      <Filter>Header Files\tc\crypto</Filter>
+    <ClInclude Include="..\..\..\include\tc\io\VirtualFileSystem.h" >
+        <Filter>Header Files\tc\io</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\io.h" >
+        <Filter>Header Files\tc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\os\Environment.h" >
+        <Filter>Header Files\tc\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\os\UnicodeMain.h" >
+        <Filter>Header Files\tc\os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\os.h" >
+        <Filter>Header Files\tc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\string\TranscodeUtil.h" >
+        <Filter>Header Files\tc\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\string\detail\utf16.h" >
+        <Filter>Header Files\tc\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\string\detail\utf8.h" >
+        <Filter>Header Files\tc\string</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\string.h" >
+        <Filter>Header Files\tc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc\types.h" >
+        <Filter>Header Files\tc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\tc.h" >
+        <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -716,14 +749,23 @@
     <Filter Include="Header Files\tc\crypto">
       <UniqueIdentifier>{1790ccfc-ff8d-42cf-a41b-c546f7c7e03a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\tc\crypto\detail">
+      <UniqueIdentifier>{07fdaf97-dd39-4b5e-8679-5f3a45ff300e}</UniqueIdentifier>
+    </Filter>
+     <Filter Include="Header Files\tc\encode">
+      <UniqueIdentifier>{2b186524-afb8-4bab-bd5a-7fb9ee579131}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\tc\io">
       <UniqueIdentifier>{db3218f8-61c4-444c-9758-eaf0a3fc7cb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\tc\os">
+      <UniqueIdentifier>{2a9cc5ad-5ee9-4baf-b63c-d7af02b7309b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\tc\string">
       <UniqueIdentifier>{f110e29c-e832-412d-b35c-fe09f44cb48b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\tc\crypto\detail">
-      <UniqueIdentifier>{07fdaf97-dd39-4b5e-8679-5f3a45ff300e}</UniqueIdentifier>
+    <Filter Include="Header Files\tc\string\detail">
+      <UniqueIdentifier>{68b83858-efc6-489d-a672-8eef14f0f2bc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{7cb67e0a-2201-4709-a0fa-7da68aaf8bb4}</UniqueIdentifier>
@@ -734,6 +776,12 @@
     <Filter Include="Source Files\crypto">
       <UniqueIdentifier>{fc4541ce-957c-4976-880e-5189f1d8c46e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\crypto\detail">
+      <UniqueIdentifier>{e80dca43-1a2b-4037-8751-245a3b07d04a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\encode">
+      <UniqueIdentifier>{aba2432e-d6dc-403e-84f4-4e2c7d24e681}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\io">
       <UniqueIdentifier>{b6397317-93c5-48d9-a2bd-107761509eb7}</UniqueIdentifier>
     </Filter>
@@ -742,15 +790,6 @@
     </Filter>
     <Filter Include="Source Files\string">
       <UniqueIdentifier>{d8bfe354-3e2c-40e9-8023-5cdbf8fd877d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\tc\os">
-      <UniqueIdentifier>{2a9cc5ad-5ee9-4baf-b63c-d7af02b7309b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\tc\string\detail">
-      <UniqueIdentifier>{68b83858-efc6-489d-a672-8eef14f0f2bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\crypto\detail">
-      <UniqueIdentifier>{e80dca43-1a2b-4037-8751-245a3b07d04a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

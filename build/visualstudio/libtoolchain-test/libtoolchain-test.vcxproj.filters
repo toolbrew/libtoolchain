@@ -255,6 +255,9 @@
     <ClCompile Include="..\..\..\test\crypto_Tdes168EcbEncryptor_TestClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\test\encode_Base64Util_TestClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\test\PbkdfUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -579,6 +582,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\test\crypto_Tdes168EcbEncryptor_TestClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\test\encode_Base64Util_TestClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\test\PbkdfUtil.h">

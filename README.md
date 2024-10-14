@@ -4,7 +4,7 @@
 
 ![Platform](https://img.shields.io/badge/platform-linux:%20x86__64,%20i386%20%7C%20windows:%20x86__64,%20i386%20%7C%20macOS:%20x86__64,%20arm64-lightgrey.svg)
 
-![Version](https://img.shields.io/badge/version-0.7.0%20%7C%20prerelease-green.svg)
+![Version](https://img.shields.io/badge/version-0.8.0%20%7C%20prerelease-green.svg)
 
 Library to ease the development of toolchain applications.
 
@@ -41,7 +41,7 @@ For GNU/unix systems `make` can be used. For native Windows, Visual Studio proje
 See more [here](./BUILDING.md).
 
 # Documentation
-API Documentation is generated using Doxygen, and located at docs/index.html. Alternatively documentation for the current stable version is available at https://jakcron.github.io/libtoolchain-docs/v0.7.
+API Documentation is generated using Doxygen, and located at docs/index.html. Alternatively documentation for the current stable version is available at https://jakcron.github.io/libtoolchain-docs/v0.8.
 
 # License 
 This source code is made available under the [MIT license](./LICENSE).

@@ -225,22 +225,22 @@ tc::io::VirtualFileSystem::FileSystemSnapshot::FileEntry* tc::io::VirtualFileSys
 	// if resolved_path does not exist in the map, throw exception
 	if (file_itr == mFsSnapshot.file_entry_path_map.end())
 	{
-		throw tc::io::FileNotFoundException(kClassName + method_name, "File does not exist. (Path to File Index map had no match)");
+		throw tc::io::FileNotFoundException(kClassName + method_name, fmt::format("File \"{}\" does not exist. (Path to File Index map had no match)", resolved_path.to_string()));
 	}
 	// if the file_entry index isn't valid, throw exception
 	if (file_itr->second >= mFsSnapshot.file_entries.size())
 	{
-		throw tc::io::FileNotFoundException(kClassName + method_name, "File does not exist. (Invalid File Index)");
+		throw tc::io::FileNotFoundException(kClassName + method_name, fmt::format("File \"{}\" does not exist. (Invalid File Index)", resolved_path.to_string()));
 	}
 	// if the file_entry index leads to a null IStream pointer, throw exception
 	if (mFsSnapshot.file_entries.at(file_itr->second).stream == nullptr)
 	{
-		throw tc::io::FileNotFoundException(kClassName + method_name, "File does not exist. (File stream was null)");
+		throw tc::io::FileNotFoundException(kClassName + method_name, fmt::format("File \"{}\" does not exist. (File stream was null)", resolved_path.to_string()));
 	}
 	// if the stream has invalid properties, throw exception
 	if ( !(mFsSnapshot.file_entries.at(file_itr->second).stream->canRead() == true && mFsSnapshot.file_entries.at(file_itr->second).stream->canWrite() == false) )
 	{
-		throw tc::io::FileNotFoundException(kClassName + method_name, "File does not exist. (File stream had invalid permissions)");
+		throw tc::io::FileNotFoundException(kClassName + method_name, fmt::format("File \"{}\" does not exist. (File stream had invalid permissions)", resolved_path.to_string()));
 	}
 
 	return &(mFsSnapshot.file_entries.at(file_itr->second));
@@ -252,12 +252,12 @@ tc::io::VirtualFileSystem::FileSystemSnapshot::DirEntry* tc::io::VirtualFileSyst
 	// if the path was not found in the map, throw exception
 	if (dir_itr == mFsSnapshot.dir_entry_path_map.end())
 	{
-		throw tc::io::DirectoryNotFoundException(kClassName + method_name, "Directory does not exist. (Path to Directory Index map had no match)");
+		throw tc::io::DirectoryNotFoundException(kClassName + method_name, fmt::("Directory \"{}\" does not exist. (Path to Directory Index map had no match)", resolved_path));
 	}
 	// if the dir_entry index isn't valid, throw exception
 	if (dir_itr->second >= mFsSnapshot.dir_entries.size())
 	{
-		throw tc::io::DirectoryNotFoundException(kClassName + method_name, "Directory does not exist. (Invalid Directory Index)");
+		throw tc::io::DirectoryNotFoundException(kClassName + method_name, fmt::("Directory \"{}\" does not exist. (Invalid Directory Index)", resolved_path));
 	}
 
 	return &(mFsSnapshot.dir_entries.at(dir_itr->second));

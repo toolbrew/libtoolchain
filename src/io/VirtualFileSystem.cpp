@@ -252,12 +252,12 @@ tc::io::VirtualFileSystem::FileSystemSnapshot::DirEntry* tc::io::VirtualFileSyst
 	// if the path was not found in the map, throw exception
 	if (dir_itr == mFsSnapshot.dir_entry_path_map.end())
 	{
-		throw tc::io::DirectoryNotFoundException(kClassName + method_name, fmt::("Directory \"{}\" does not exist. (Path to Directory Index map had no match)", resolved_path));
+		throw tc::io::DirectoryNotFoundException(kClassName + method_name, fmt::format("Directory \"{}\" does not exist. (Path to Directory Index map had no match)", resolved_path.to_string()));
 	}
 	// if the dir_entry index isn't valid, throw exception
 	if (dir_itr->second >= mFsSnapshot.dir_entries.size())
 	{
-		throw tc::io::DirectoryNotFoundException(kClassName + method_name, fmt::("Directory \"{}\" does not exist. (Invalid Directory Index)", resolved_path));
+		throw tc::io::DirectoryNotFoundException(kClassName + method_name, fmt::format("Directory \"{}\" does not exist. (Invalid Directory Index)", resolved_path.to_string()));
 	}
 
 	return &(mFsSnapshot.dir_entries.at(dir_itr->second));

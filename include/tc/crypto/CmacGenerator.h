@@ -13,16 +13,16 @@ namespace tc { namespace crypto {
 
 	/**
 	 * @class CmacGenerator
-	 * @brief Class for calculating an HMAC.
+	 * @brief Class for calculating an CMAC.
 	 * 
-	 * @tparam BlockCipher The class that implements the hash function for generating HMAC.
+	 * @tparam BlockCipher The class that implements the hash function for generating CMAC.
 	 * 
 	 * @details
 	 * This class is a template class that takes a hash function implementation class as template parameter.
-	 * See @ref HmacSha2256Generator or similar for supplied realizations of this template class.
+	 * See @ref CmacAes128Generator or similar for supplied realizations of this template class.
 	 * 
 	 * The implementation of <var>BlockCipher</var> must satisfies the following conditions.
-	 * See @ref Sha2256Generator or similar class, for more information including parameters to each function.
+	 * See @ref Aes128Encryptor or similar class, for more information including parameters to each function.
 	 * 
 	 * -# Has a <tt>kBlockSize</tt> constant that defines the size of the block to process.
 	 * -# Has a <tt>kHashSize</tt> constant that defines the output size of the hash value.
@@ -42,7 +42,7 @@ namespace tc { namespace crypto {
 	 * 
 	 * Below is code sample for calculating MAC with one call to @ref update():
 	 * @code
-	 * std::string key = "i am an hmac key";
+	 * tc::ByteData key = tc::cli::FormatUtil::hexStringToBytes("2b7e151628aed2a6abf7158809cf4f3c");
 	 * 
 	 * // open file stream
 	 * auto stream = tc::io::FileStream("a_file.bin", tc::io::FileMode::Open, tc::io::FileAccess::Read);
@@ -52,7 +52,7 @@ namespace tc { namespace crypto {
 	 * 
 	 * // initialize generator. CmacGenerator<BlockCipher> is now in a ready state. 
 	 * tc::crypto::CmacGenerator<BlockCipher> impl;
-	 * impl.initialize((const byte_t*)key.c_str(), key.size());
+	 * impl.initialize(key.data(), key.size());
 	 * 
 	 * // reset stream position to beginning (not strictly necessary for an unused tc::io::FileStream)
 	 * stream.seek(0, tc::io::SeekOrigin::Begin);
@@ -70,7 +70,7 @@ namespace tc { namespace crypto {
 	 * 
 	 * Below is code sample for calculating MAC with sequential calls to @ref update():
 	 * @code
-	 * std::string key = "i am an hmac key";
+	 * tc::ByteData key = tc::cli::FormatUtil::hexStringToBytes("2b7e151628aed2a6abf7158809cf4f3c");
 	 * 
 	 * // open file stream
 	 * auto stream = tc::io::FileStream("a_file.bin", tc::io::FileMode::Open, tc::io::FileAccess::Read);
@@ -84,7 +84,7 @@ namespace tc { namespace crypto {
 	 * 
 	 * // initialize generator. CmacGenerator<BlockCipher> is now in a ready state. 
 	 * tc::crypto::CmacGenerator<BlockCipher> impl;
-	 * impl.initialize((const byte_t*)key.c_str(), key.size());
+	 * impl.initialize(key.data(), key.size());
 	 * 
 	 * // reset stream position to beginning (not strictly necessary for an unused tc::io::FileStream)
 	 * stream.seek(0, tc::io::SeekOrigin::Begin);

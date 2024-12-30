@@ -15,7 +15,7 @@ namespace tc { namespace crypto {
 	 * @class CmacGenerator
 	 * @brief Class for calculating an CMAC.
 	 * 
-	 * @tparam BlockCipher The class that implements the hash function for generating CMAC.
+	 * @tparam BlockCipher The class that implements the CBC encryption operation for generating MAC.
 	 * 
 	 * @details
 	 * This class is a template class that takes a hash function implementation class as template parameter.

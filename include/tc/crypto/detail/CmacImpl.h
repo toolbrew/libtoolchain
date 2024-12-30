@@ -3,7 +3,7 @@
 	 * @brief Declaration of tc::crypto::detail::CmacImpl
 	 * @author Jack (jakcron)
 	 * @version 0.1
-	 * @date 2022/07/12
+	 * @date 2024/12/10
 	 **/
 #pragma once
 #include <tc/types.h>
@@ -20,9 +20,9 @@ namespace tc { namespace crypto { namespace detail {
 
 	/**
 	 * @class CmacImpl
-	 * @brief This class implements the CMAC (<b>C</b>ounter with <b>C</b>BC-<b>M</b>AC) algorithm as a template class.
+	 * @brief This class implements the CMAC (<b>C</b>ipher based <b>MAC</b>) algorithm as a template class.
 	 * 
-	 * @tparam BlockCipher The class that implements the block cipher used for CCM mode encryption/decryption.
+	 * @tparam BlockCipher The class that implements the block cipher used for CBC encryption for generating MAC.
 	 * 
 	 * @details
 	 * The implementation of <var>BlockCipher</var> must satisfies the following conditions.

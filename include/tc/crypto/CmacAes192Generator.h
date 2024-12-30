@@ -17,7 +17,7 @@ namespace tc { namespace crypto {
 	 * @brief Class for calculating CMAC-AES-192.
 	 * 
 	 * @details This class calcualtes CMAC using AES-192.
-	 * For more information refer to @ref HmacGenerator.
+	 * For more information refer to @ref CmacGenerator.
 	 */
 using CmacAes192Generator = CmacGenerator<Aes192Encryptor>;
 

@@ -17,7 +17,7 @@ namespace tc { namespace crypto {
 	 * @brief Class for calculating CMAC-TDES-168.
 	 * 
 	 * @details This class calcualtes CMAC using TDES-168.
-	 * For more information refer to @ref HmacGenerator.
+	 * For more information refer to @ref CmacGenerator.
 	 */
 using CmacTdes168Generator = CmacGenerator<Tdes168Encryptor>;
 
